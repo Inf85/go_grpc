@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "/proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+message Request{
+  int64 a = 1;
+  int64 b = 2;
+}
+
+message Response{
+  int64 result = 1;
+}
+
+service AddService{
+  rpc Add(Request) returns (Response){
+    option(google.api.http)={
+      post: "/add"
+      body: "*"
+    };
+  }
+
+}
+message UsersListRequest{
+
+}
+message UsersListResponse{
+  repeated Users users = 1;
+  Code code = 2;
+  message Code{
+    string code = 1;
+    string message = 2;
+  }
+
+  message Users{
+    int64 id = 1;
+    string userNam = 2;
+    string email = 3;
+  }
+}
+service UserService{
+  rpc GetUserList(google.protobuf.Empty) returns(UsersListResponse){
+    option(google.api.http)={
+      get: "/users"
+    };
+  }
+}
+
+
+
